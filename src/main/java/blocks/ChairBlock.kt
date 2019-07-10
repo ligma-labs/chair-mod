@@ -8,9 +8,12 @@ import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.entity.MoverType
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.tileentity.TileEntity
+import net.minecraft.util.EnumBlockRenderType
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
+import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
+import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 
 class ChairBlock : Block(Material.WOOD) {
@@ -20,6 +23,16 @@ class ChairBlock : Block(Material.WOOD) {
         unlocalizedName = "${Utils.MODID}:chair"
         setLightLevel(10 / 16f)
         setHardness(5f)
+    }
+
+    override fun isOpaqueCube(state: IBlockState): Boolean = false
+
+    override fun isFullCube(state: IBlockState): Boolean = false
+
+    override fun getRenderType(state: IBlockState): EnumBlockRenderType = EnumBlockRenderType.MODEL
+
+    override fun getCollisionBoundingBox(blockState: IBlockState, worldIn: IBlockAccess, pos: BlockPos): AxisAlignedBB? {
+        return NULL_AABB
     }
 
     override fun onBlockActivated(worldIn: World, pos: BlockPos, state: IBlockState, playerIn: EntityPlayer, hand: EnumHand, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float): Boolean {
