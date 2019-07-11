@@ -3,8 +3,11 @@ package blocks
 import Utils
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
+import net.minecraft.block.properties.PropertyDirection
+import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.creativetab.CreativeTabs
+import net.minecraft.entity.EntityLivingBase
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.EnumBlockRenderType
 import net.minecraft.util.EnumFacing
@@ -20,6 +23,7 @@ class ChairBlock : Block(Material.WOOD) {
         const val TAG = "chair"
         const val INITIAL_METADATA = 0
         val CHAIR_AABB = AxisAlignedBB(2.0 / 16, 0.0, 2.0 / 16, 14.0 / 16, 11.0 / 16, 14.0 / 16)
+        val PROPERTYFACING: PropertyDirection = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL)
     }
 
     init {
@@ -28,6 +32,8 @@ class ChairBlock : Block(Material.WOOD) {
         setCreativeTab(CreativeTabs.REDSTONE)
         setLightLevel(10 / 16f)
         setHardness(5f)
+
+        defaultState = this.blockState.baseState.withProperty(PROPERTYFACING, EnumFacing.NORTH)
     }
 
     override fun isOpaqueCube(state: IBlockState): Boolean = false
@@ -70,5 +76,33 @@ class ChairBlock : Block(Material.WOOD) {
         }
 
         return true
+    }
+
+    override fun createBlockState(): BlockStateContainer {
+        return BlockStateContainer(this, PROPERTYFACING)
+    }
+
+    override fun getStateFromMeta(meta: Int): IBlockState {
+        return when (meta) {
+            0 -> this.defaultState.withProperty(PROPERTYFACING, EnumFacing.NORTH)
+            1 -> this.defaultState.withProperty(PROPERTYFACING, EnumFacing.EAST)
+            2 -> this.defaultState.withProperty(PROPERTYFACING, EnumFacing.SOUTH)
+            3 -> this.defaultState.withProperty(PROPERTYFACING, EnumFacing.WEST)
+            else -> this.defaultState
+        }
+    }
+
+    override fun getMetaFromState(state: IBlockState): Int {
+        return when (state.getValue(PROPERTYFACING) as EnumFacing) {
+            EnumFacing.NORTH -> 0
+            EnumFacing.EAST -> 1
+            EnumFacing.SOUTH -> 2
+            EnumFacing.WEST -> 3
+            else -> 0
+        }
+    }
+
+    override fun getStateForPlacement(world: World, pos: BlockPos, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float, meta: Int, placer: EntityLivingBase, hand: EnumHand): IBlockState {
+        return defaultState.withProperty(PROPERTYFACING, placer.horizontalFacing)
     }
 }

@@ -1,5 +1,20 @@
 {
   "variants": {
-    "normal":  { "model": "chairmod:chair" }
+    "normal":  { "model": "chairmod:chair" },
+    "facing=north": {
+      "model": "chairmod:chair",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "chairmod:chair",
+      "y": -90
+    },
+    "facing=south": {
+      "model": "chairmod:chair"
+    },
+    "facing=west": {
+      "model": "chairmod:chair",
+      "y": 90
+    }
   }
 }
