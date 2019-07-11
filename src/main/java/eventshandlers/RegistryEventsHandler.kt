@@ -10,26 +10,24 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation
 import net.minecraftforge.client.model.ModelLoader
 
 class RegistryEventsHandler {
-    private val items: MutableList<Item> = mutableListOf()
-    private val blocks: MutableList<Block> = mutableListOf()
 
-    init {
-//        items.add(JSwordItem())
-        blocks.add(ChairBlock())
-
-        items.addAll(blocks.map { it.toItemBlock() })
-    }
+    private val chairBlock = ChairBlock()
 
     @SubscribeEvent
     fun registerItems(event: RegistryEvent.Register<Item>) {
-        items.forEach {
-            ModelLoader.setCustomModelResourceLocation(it, 0, ModelResourceLocation(it.registryName.toString()))
-            event.registry.register(it)
-        }
+        val chairBlockItem = chairBlock.toItemBlock()
+
+        ModelLoader.setCustomModelResourceLocation(
+                chairBlockItem,
+                ChairBlock.INITIAL_METADATA,
+                ModelResourceLocation(chairBlockItem.registryName.toString())
+        )
+
+        event.registry.register(chairBlockItem)
     }
 
     @SubscribeEvent
     fun registerBlocks(event: RegistryEvent.Register<Block>) {
-        blocks.forEach { event.registry.register(it) }
+        event.registry.register(chairBlock)
     }
 }
