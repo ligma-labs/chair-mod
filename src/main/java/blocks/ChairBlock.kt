@@ -5,9 +5,7 @@ import net.minecraft.block.Block
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.creativetab.CreativeTabs
-import net.minecraft.entity.MoverType
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.EnumBlockRenderType
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
@@ -17,10 +15,16 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 
 class ChairBlock : Block(Material.WOOD) {
+
+    companion object {
+        const val TAG = "chair"
+        const val INITIAL_METADATA = 0
+    }
+
     init {
+        unlocalizedName = "${Utils.MODID}:$TAG"
+        setRegistryName(Utils.MODID, TAG)
         setCreativeTab(CreativeTabs.REDSTONE)
-        setRegistryName(Utils.MODID, "chair")
-        unlocalizedName = "${Utils.MODID}:chair"
         setLightLevel(10 / 16f)
         setHardness(5f)
     }
