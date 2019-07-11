@@ -23,7 +23,7 @@ class ChairBlock : Block(Material.WOOD) {
     }
 
     init {
-        unlocalizedName = "${Utils.MODID}:$TAG"
+        unlocalizedName = "${Utils.MODID}.$TAG"
         setRegistryName(Utils.MODID, TAG)
         setCreativeTab(CreativeTabs.REDSTONE)
         setLightLevel(10 / 16f)
