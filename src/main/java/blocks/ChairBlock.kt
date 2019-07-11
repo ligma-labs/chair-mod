@@ -19,6 +19,7 @@ class ChairBlock : Block(Material.WOOD) {
     companion object {
         const val TAG = "chair"
         const val INITIAL_METADATA = 0
+        val CHAIR_AABB = AxisAlignedBB(2.0 / 16, 0.0, 2.0 / 16, 14.0 / 16, 11.0 / 16, 14.0 / 16)
     }
 
     init {
@@ -31,12 +32,14 @@ class ChairBlock : Block(Material.WOOD) {
 
     override fun isOpaqueCube(state: IBlockState): Boolean = false
 
-    override fun isFullCube(state: IBlockState): Boolean = false
-
     override fun getRenderType(state: IBlockState): EnumBlockRenderType = EnumBlockRenderType.MODEL
 
     override fun getCollisionBoundingBox(blockState: IBlockState, worldIn: IBlockAccess, pos: BlockPos): AxisAlignedBB? {
-        return NULL_AABB
+        return CHAIR_AABB
+    }
+
+    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
+        return CHAIR_AABB
     }
 
     override fun onBlockActivated(worldIn: World, pos: BlockPos, state: IBlockState, playerIn: EntityPlayer, hand: EnumHand, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float): Boolean {
