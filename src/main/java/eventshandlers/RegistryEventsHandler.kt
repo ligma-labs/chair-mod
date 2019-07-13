@@ -6,8 +6,12 @@ import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import toItemBlock
 import blocks.ChairBlock
+import entities.ChairRideableEntity
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
+import net.minecraft.util.ResourceLocation
 import net.minecraftforge.client.model.ModelLoader
+import net.minecraftforge.fml.common.registry.EntityEntry
+import net.minecraftforge.fml.common.registry.EntityEntryBuilder
 
 class RegistryEventsHandler {
 
@@ -29,5 +33,16 @@ class RegistryEventsHandler {
     @SubscribeEvent
     fun registerBlocks(event: RegistryEvent.Register<Block>) {
         event.registry.register(chairBlock)
+    }
+
+    @SubscribeEvent
+    fun registerEntity(event: RegistryEvent.Register<EntityEntry>) {
+        val chairEntityEntry = EntityEntryBuilder.create<ChairRideableEntity>()
+                .id(ResourceLocation(Utils.MODID, "chair_rideable"), 0)
+                .entity(ChairRideableEntity::class.java)
+                .name("chair_rideable")
+                .build()
+
+        event.registry.register(chairEntityEntry)
     }
 }
