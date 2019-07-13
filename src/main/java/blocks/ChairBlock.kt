@@ -1,6 +1,7 @@
 package blocks
 
 import Utils
+import entities.ChairRideableEntity
 import net.minecraft.block.Block
 import net.minecraft.block.material.Material
 import net.minecraft.block.properties.PropertyDirection
@@ -61,17 +62,20 @@ class ChairBlock : Block(Material.WOOD) {
                 // Adjust player sitting position
                 playerIn.setPositionAndUpdate(playerIn.posX, playerIn.posY - 0.3, playerIn.posZ - 0.1)
 
-                // Mount
-                playerIn.startRiding(playerIn)
+                // Create chair entity to be sit on
+                val chairRideable = ChairRideableEntity(worldIn)
+                chairRideable.setPosition(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble())
 
-                // Prevent movement
-                // TODO: find a better way to do this
-                playerIn.updateBlocked = true
+                // Mount
+                playerIn.startRiding(chairRideable)
 
             } else {
-                // Dismount and allow for movement
-                playerIn.dismountRidingEntity()
-                playerIn.updateBlocked = false
+                ChairMod.logger.info("Dismounting chair")
+
+                // Remove chair entity to dismount
+                playerIn.ridingEntity?.let {
+                    worldIn.removeEntity(it)
+                }
             }
         }
 
