@@ -12,22 +12,27 @@ import net.minecraft.util.ResourceLocation
 import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.fml.common.registry.EntityEntry
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder
+import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.fml.relauncher.SideOnly
 
 class RegistryEventsHandler {
 
     private val chairBlock = ChairBlock()
+    private val chairBlockItem = chairBlock.toItemBlock()
 
     @SubscribeEvent
     fun registerItems(event: RegistryEvent.Register<Item>) {
-        val chairBlockItem = chairBlock.toItemBlock()
+        event.registry.register(chairBlockItem)
+    }
 
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    fun registerItemModels(event: RegistryEvent.Register<Item>) {
         ModelLoader.setCustomModelResourceLocation(
                 chairBlockItem,
                 ChairBlock.INITIAL_METADATA,
                 ModelResourceLocation(chairBlockItem.registryName.toString())
         )
-
-        event.registry.register(chairBlockItem)
     }
 
     @SubscribeEvent
